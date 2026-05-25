@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>paperloris — Clean code. Clean design.</title>
+  <meta name="description" content="paperloris builds thoughtful software — from web apps and APIs to developer tools and design systems.">
+
+  <meta property="og:title" content="paperloris — Clean code. Clean design.">
+  <meta property="og:description" content="paperloris builds thoughtful software — from web apps and APIs to developer tools and design systems.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://paperloris.in">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#f5f3ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+
+  <link rel="dns-prefetch" href="https://picsum.photos">
+  <link rel="preconnect" href="https://picsum.photos">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,450;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "paperloris",
+    "description": "Thoughtful software for the modern web",
+    "url": "https://paperloris.in",
+    "sameAs": [
+      "https://discord.gg/8sFBCEKJ29",
+      "https://threads.net/@paperloris",
+      "https://reddit.com/u/paperloris",
+      "https://github.com/paperloris",
+      "https://pinterest.com/paperloris"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <noscript>
+    <div style="padding:1rem;text-align:center;background:#ef4444;color:#fff;font-size:0.75rem;">
+      paperloris requires JavaScript for theme toggle, smooth scroll, and animations. Please enable JavaScript.
+    </div>
+  </noscript>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="header" id="header">
+    <div class="container">
+          <a href="#" class="logo"><span class="sc">paperloris</span></a>
+      <div class="header__right">
+        <nav class="nav" aria-label="Primary navigation">
+          <ul class="nav-list" id="navList">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="theme-toggle__sun" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="3.2" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M8.5 1v1.5M8.5 14.5V16M1 8.5h1.5M14.5 8.5H16M3.2 3.2l1 1M12.8 12.8l1 1M3.2 13.8l1-1M12.8 4.2l1-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <svg class="theme-toggle__moon" width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M14.5 9A6 6 0 018 3a6 6 0 106.5 6z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="nav-toggle__lines">
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+          </span>
+          <span class="nav-toggle__close" aria-hidden="true">&#x2715;</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="home">
+      <div class="hero-bg" aria-hidden="true">
+        <img src="assets/images/hero-bg.svg" alt="" aria-hidden="true" width="1440" height="900">
+      </div>
+      <div class="container">
+        <div class="hero__content reveal revealed">
+          <div class="hero__prompt">
+            <span class="prompt">$</span> <span class="sc">paperloris</span> --intro
+          </div>
+          <h1 class="hero__title"><span class="typewriter-text"></span><span class="cursor" aria-hidden="true">|</span></h1>
+          <p class="hero__subtitle">Clean code, clean design — built for<br>the modern web.</p>
+          <div class="hero__actions">
+            <a href="#portfolio" class="btn btn--primary">See our work &rarr;</a>
+            <a href="#contact" class="btn">Get in touch &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <div class="section-divider reveal" aria-hidden="true"></div>
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about__inner reveal">
+          <span class="section-label">// about</span>
+          <h2 class="section-title">Built with intention</h2>
+          <p class="about__text"><span class="sc">paperloris</span> is a software studio that believes great code is quiet, confident, and deeply considered. We craft digital experiences that are as robust as they are beautiful.</p>
+          <p class="about__text">We work with founders, startups, and product teams who value quality over speed. Our practice is rooted in minimal architecture, clean abstractions, and a deep respect for the craft of software.</p>
+          <div class="about__code reveal reveal--d1">
+            <div class="about__code-header">
+              <span class="about__code-dot"></span>
+              <span class="about__code-dot"></span>
+              <span class="about__code-dot"></span>
+              <span class="about__code-filename">ethos.js</span>
+            </div>
+            <span class="cm">// our guiding principles</span><br>
+            <span class="kw">const</span> paperloris = {<br>
+            &nbsp;&nbsp;<span class="pr">belief</span>: <span class="str">"simple over clever"</span>,<br>
+            &nbsp;&nbsp;<span class="pr">focus</span>: <span class="str">"quality over velocity"</span>,<br>
+            &nbsp;&nbsp;<span class="pr">promise</span>: <span class="str">"every pixel matters"</span><br>
+            };
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <div class="section-divider reveal" aria-hidden="true"></div>
+    <section class="services" id="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// services</span>
+          <h2 class="section-title">What we build</h2>
+          <p class="section-desc">From frontend to infrastructure — crafted with care at every layer.</p>
+        </div>
+        <div class="services__list">
+          <div class="service-item reveal reveal--d1">
+            <div class="service-item__line">
+              <span class="service-item__prompt">$</span>
+              <h3 class="service-item__title">web development</h3>
+            </div>
+            <p class="service-item__desc">Fast, accessible, responsive web applications built with modern frameworks and a focus on user experience.</p>
+            <div class="service-item__action">
+              <a href="#portfolio" class="btn">View examples &rarr;</a>
+            </div>
+          </div>
+          <div class="service-item reveal reveal--d2">
+            <div class="service-item__line">
+              <span class="service-item__prompt">$</span>
+              <h3 class="service-item__title">API &amp; backend</h3>
+            </div>
+            <p class="service-item__desc">RESTful and GraphQL APIs, microservices, and serverless architectures designed for scale and maintainability.</p>
+            <div class="service-item__action">
+              <a href="#portfolio" class="btn">View examples &rarr;</a>
+            </div>
+          </div>
+          <div class="service-item reveal reveal--d3">
+            <div class="service-item__line">
+              <span class="service-item__prompt">$</span>
+              <h3 class="service-item__title">design systems</h3>
+            </div>
+            <p class="service-item__desc">Component libraries, design tokens, and documentation that keep your product consistent and your team productive.</p>
+            <div class="service-item__action">
+              <a href="#portfolio" class="btn">View examples &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Portfolio ===== -->
+    <div class="section-divider reveal" aria-hidden="true"></div>
+    <section class="portfolio" id="portfolio">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// portfolio</span>
+          <h2 class="section-title">Selected work</h2>
+          <p class="section-desc">A glimpse into the products and platforms we've built.</p>
+        </div>
+        <div class="portfolio__grid">
+          <article class="portfolio-item reveal reveal--d1">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/pulse/600/450" alt="Analytics dashboard for Pulse" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">Web App</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Pulse</h3>
+                <p class="portfolio-item__desc">Real-time analytics dashboard for SaaS teams</p>
+              </div>
+            </div>
+          </article>
+          <article class="portfolio-item reveal reveal--d2">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/nimbus/600/450" alt="Cloud platform for Nimbus" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">API Platform</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Nimbus</h3>
+                <p class="portfolio-item__desc">Serverless deployment platform and CLI</p>
+              </div>
+            </div>
+          </article>
+          <article class="portfolio-item reveal reveal--d3">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/verso/600/450" alt="Design system for Verso" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">Design System</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Verso</h3>
+                <p class="portfolio-item__desc">Component library for a fintech startup</p>
+              </div>
+            </div>
+          </article>
+          <article class="portfolio-item reveal reveal--d1">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/relay/600/450" alt="Mobile app for Relay" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">Mobile App</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Relay</h3>
+                <p class="portfolio-item__desc">Cross-platform messaging app (React Native)</p>
+              </div>
+            </div>
+          </article>
+          <article class="portfolio-item reveal reveal--d2">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/forge/600/450" alt="Developer tools for Forge" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">Developer Tools</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Forge</h3>
+                <p class="portfolio-item__desc">Open-source CLI for project scaffolding</p>
+              </div>
+            </div>
+          </article>
+          <article class="portfolio-item reveal reveal--d3">
+            <div class="portfolio-item__inner">
+              <div class="portfolio-item__image">
+                <img src="https://picsum.photos/seed/rift/600/450" alt="E-commerce platform for Rift" width="600" height="450" loading="lazy">
+                <span class="portfolio-item__category">Full-Stack</span>
+              </div>
+              <div class="portfolio-item__info">
+                <h3 class="portfolio-item__title">Rift</h3>
+                <p class="portfolio-item__desc">Headless commerce platform for digital goods</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Testimonials ===== -->
+    <div class="section-divider reveal" aria-hidden="true"></div>
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// testimonials</span>
+          <h2 class="section-title">Kind words</h2>
+        </div>
+        <div class="testimonials__list">
+          <blockquote class="testimonial reveal reveal--d1">
+            <div class="testimonial__marker" aria-hidden="true">"</div>
+            <p class="testimonial__text"><span class="sc">paperloris</span> rebuilt our entire platform from the ground up. The codebase is clean, well-documented, and a joy to work with. They set a new standard for our engineering team.</p>
+            <footer class="testimonial__author">
+              <cite class="testimonial__name">Elena Voss</cite>
+              <span class="testimonial__role">CTO, Pulse Analytics</span>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial reveal reveal--d2">
+            <div class="testimonial__marker" aria-hidden="true">"</div>
+            <p class="testimonial__text">Their design system brought consistency to our product across every touchpoint. The components are modular, accessible, and beautifully documented. A true partner in every sense.</p>
+            <footer class="testimonial__author">
+              <cite class="testimonial__name">James Hartley</cite>
+              <span class="testimonial__role">VP Engineering, Verso</span>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial reveal reveal--d3">
+            <div class="testimonial__marker" aria-hidden="true">"</div>
+            <p class="testimonial__text">The level of craftsmanship is rare in software. <span class="sc">paperloris</span> doesn't just ship code — they ship well-architected, performant systems that stand the test of time.</p>
+            <footer class="testimonial__author">
+              <cite class="testimonial__name">Suki Chen</cite>
+              <span class="testimonial__role">CEO, Nimbus Cloud</span>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <div class="section-divider reveal" aria-hidden="true"></div>
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">// contact</span>
+              <h2 class="section-title">Let's build something</h2>
+          <p class="section-desc">Have a project in mind? We'd love to hear from you.</p>
+        </div>
+        <div class="contact__grid">
+          <form class="contact-form reveal reveal--d1" novalidate>
+            <div class="contact-form__group">
+              <label for="name" class="contact-form__label">Name</label>
+              <input type="text" id="name" name="name" class="contact-form__input" placeholder="your name" required>
+            </div>
+            <div class="contact-form__group">
+              <label for="email" class="contact-form__label">Email</label>
+              <input type="email" id="email" name="email" class="contact-form__input" placeholder="your@email.com" required>
+            </div>
+            <div class="contact-form__group">
+              <label for="message" class="contact-form__label">Message</label>
+              <textarea id="message" name="message" class="contact-form__textarea" rows="4" placeholder="tell us about your project..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary">Send &rarr;</button>
+          </form>
+          <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+              <button class="modal__close" id="modalClose" aria-label="Close">&times;</button>
+              <div class="modal__boat" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <path d="M6 28h36L31.5 44h-15z" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M10 28l6-20h16l6 20" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M18 8l-2 8h16l-2-8" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                  <path d="M24 16v12" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M8 30l4 8" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+                  <path d="M36 30l-4 8" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+                  <path d="M12 32l2 6" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+                  <path d="M34 32l-2 6" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+                </svg>
+              </div>
+              <h3 class="modal__title" id="modalTitle">Message sent</h3>
+              <p class="modal__text">Thanks for reaching out! We'll get back to you shortly.</p>
+            </div>
+          </div>
+          <div class="contact-info reveal reveal--d2">
+            <div class="contact-info__item">
+              <span class="contact-info__heading">Email</span>
+              <a href="mailto:paperloris@outlook.com">paperloris@outlook.com</a>
+            </div>
+            <div class="contact-info__item">
+              <span class="contact-info__heading">Phone</span>
+              <p>&mdash;</p>
+            </div>
+            <div class="contact-info__item">
+              <span class="contact-info__heading">Office</span>
+              <p>Maharashtra, India</p>
+            </div>
+            <div class="contact-info__item">
+              <span class="contact-info__heading">Social</span>
+              <div class="contact-info__social">
+                <a href="https://discord.gg/8sFBCEKJ29" target="_blank" rel="noopener noreferrer" class="social-link"><span class="social-link__title">Discord</span> @paperloris</a>
+                <a href="https://threads.net/@paperloris" target="_blank" rel="noopener noreferrer" class="social-link"><span class="social-link__title">Threads</span> @paperloris</a>
+                <a href="https://reddit.com/u/paperloris" target="_blank" rel="noopener noreferrer" class="social-link"><span class="social-link__title">Reddit</span> u/paperloris</a>
+                <a href="https://github.com/paperloris" target="_blank" rel="noopener noreferrer" class="social-link"><span class="social-link__title">GitHub</span> @paperloris</a>
+                <a href="https://pinterest.com/paperloris" target="_blank" rel="noopener noreferrer" class="social-link"><span class="social-link__title">Pinterest</span> @paperloris</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__brand">
+<a href="#" class="logo"><span class="sc">paperloris</span></a>
+          <p class="footer__tagline">Thoughtful software for the modern web — by <span class="sc">paperloris</span>.</p>
+        </div>
+        <nav class="footer__nav" aria-label="Footer navigation">
+          <ul class="footer__nav-list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 <span class="sc">paperloris</span> &mdash; All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+      <path d="M8.5 14V3M8.5 3l-4.5 4.5M8.5 3l4.5 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <button class="chat-toggle" id="chatToggle" aria-label="Open chat" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M3 3h14a2 2 0 012 2v8a2 2 0 01-2 2H7l-4 3V5a2 2 0 012-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M6.5 8h7M6.5 11h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <aside class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat" aria-hidden="true">
+    <div class="chat-panel__header">
+      <span class="chat-panel__title"><span class="chat-prompt-glass"><span class="prompt">$</span></span> paperloris chat</span>
+      <button class="chat-panel__close" id="chatClose" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="chat-panel__messages" id="chatMessages">
+      <div class="chat-msg chat-msg--bot">
+        <span class="chat-msg__sender">bot</span>
+        <p class="chat-msg__text">Hi! Ask me about our services, tech stack, or anything else.</p>
+      </div>
+    </div>
+    <form class="chat-panel__input-area" id="chatForm">
+      <input type="text" class="chat-panel__input" id="chatInput" placeholder="type a message..." autocomplete="off" required>
+      <button type="submit" class="chat-panel__send" aria-label="Send">&rarr;</button>
+    </form>
+  </aside>
+
+  <script>
+    /* --- Utils --- */
+    const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+    const $ = (s, p) => (p || document).querySelector(s);
+    const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
+
+    /* --- DOM refs --- */
+    const navToggle = $('#navToggle');
+    const navList = $('#navList');
+    const header = $('#header');
+    const backTop = $('#backToTop');
+    const progressBar = $('#progressBar');
+    const heroBg = $('.hero-bg');
+
+    /* --- Hamburger + auto-close --- */
+    let menuTimer = null;
+
+    const closeMenu = () => {
+      navList.classList.remove('nav-list--open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('no-scroll');
+      if (menuTimer) { clearTimeout(menuTimer); menuTimer = null; }
+    };
+
+    const openMenu = () => {
+      navList.classList.add('nav-list--open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('no-scroll');
+      if (menuTimer) clearTimeout(menuTimer);
+      menuTimer = setTimeout(closeMenu, 5000);
+    };
+
+    navToggle.addEventListener('click', () => {
+      if (navList.classList.contains('nav-list--open')) closeMenu();
+      else openMenu();
+    });
+
+    /* --- Typewriter --- */
+    (() => {
+      const el = $('.hero__title');
+      if (!el) return;
+      const text = 'Thoughtful\nsoftware';
+      const span = el.querySelector('.typewriter-text');
+      let idx = 0;
+
+      function type() {
+        if (idx < text.length) {
+          const ch = text[idx++];
+          span.innerHTML += ch === '\n' ? '<br>' : ch;
+          setTimeout(type, 40 + Math.random() * 40);
+        }
+      }
+      setTimeout(type, 600);
+    })();
+
+    /* --- Scroll effects (debounced + passive) --- */
+    const onScroll = debounce(() => {
+      const y = window.scrollY;
+      const h = document.documentElement;
+      const max = h.scrollHeight - window.innerHeight;
+
+      header.classList.toggle('header--scrolled', y > 50);
+      backTop.classList.toggle('back-to-top--visible', y > 400);
+      progressBar.style.transform = 'scaleX(' + Math.min(1, y / max) + ')';
+      if (heroBg) heroBg.style.transform = 'translateY(' + (y * 0.12) + 'px)';
+    }, 16);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* --- Theme toggle --- */
+    (() => {
+      const toggle = $('#themeToggle');
+      const saved = localStorage.getItem('theme');
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const apply = dark => document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+
+      if (saved) apply(saved === 'dark');
+      else apply(mq.matches);
+
+      toggle.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        apply(next === 'dark');
+        localStorage.setItem('theme', next);
+      });
+
+      mq.addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) apply(e.matches);
+      });
+    })();
+
+    /* --- Smooth scroll + close nav --- */
+    $$('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = $(this.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
+        closeMenu();
+      });
+    });
+
+    /* --- Scroll reveal (IntersectionObserver) --- */
+    (() => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      $$('.reveal').forEach(el => observer.observe(el));
+    })();
+
+    /* --- Scroll spy (debounced + passive) --- */
+    (() => {
+      const sections = $$('section[id]');
+      const links = $$('.nav-list a');
+      const spy = debounce(() => {
+        let current = '';
+        const scrollY = window.scrollY + 200;
+        sections.forEach(s => { if (scrollY >= s.offsetTop) current = s.getAttribute('id'); });
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+      }, 50);
+      window.addEventListener('scroll', spy, { passive: true });
+    })();
+
+    /* --- Form validation --- */
+    (() => {
+      const form = $('.contact-form');
+      if (!form) return;
+      const inputs = $$('input, textarea', form);
+      const mark = (el, valid) => {
+        el.classList.toggle('contact-form__input--error', !valid);
+        if (el.value.trim()) el.classList.add('contact-form__input--touched');
+        else el.classList.remove('contact-form__input--touched');
+      };
+      inputs.forEach(input => {
+        input.addEventListener('blur', () => mark(input, input.checkValidity()));
+        input.addEventListener('input', () => {
+          if (input.classList.contains('contact-form__input--error'))
+            mark(input, input.checkValidity());
+        });
+      });
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        let valid = true;
+        inputs.forEach(input => { if (!input.checkValidity()) { mark(input, false); valid = false; } });
+        if (valid) {
+          $('#modalOverlay').classList.add('modal-overlay--open');
+          form.reset();
+          inputs.forEach(i => i.classList.remove('contact-form__input--touched', 'contact-form__input--error'));
+        }
+      });
+    })();
+
+    /* --- Modal --- */
+    (() => {
+      const overlay = $('#modalOverlay');
+      const close = $('#modalClose');
+      if (!overlay) return;
+      const hide = () => overlay.classList.remove('modal-overlay--open');
+      close.addEventListener('click', hide);
+      overlay.addEventListener('click', e => { if (e.target === overlay) hide(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('modal-overlay--open')) hide(); });
+    })();
+
+    /* --- Chatbot --- */
+    (() => {
+      const toggle = $('#chatToggle');
+      const panel = $('#chatPanel');
+      const close = $('#chatClose');
+      const form = $('#chatForm');
+      const input = $('#chatInput');
+      const msgs = $('#chatMessages');
+      if (!panel) return;
+
+      const open = () => { panel.classList.add('chat-panel--open'); toggle.setAttribute('aria-expanded', 'true'); panel.setAttribute('aria-hidden', 'false'); input.focus(); };
+      const closePanel = () => { panel.classList.remove('chat-panel--open'); toggle.setAttribute('aria-expanded', 'false'); panel.setAttribute('aria-hidden', 'true'); };
+
+      toggle.addEventListener('click', () => panel.classList.contains('chat-panel--open') ? closePanel() : open());
+      close.addEventListener('click', closePanel);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('chat-panel--open')) closePanel(); });
+
+      /* --- Training data: ~100 phrase→response pairs --- */
+      const trainingData = [
+        // Greetings
+        { q: ['hello','hi','hey','greetings','good morning','good evening','howdy','sup','yo'], a: ['Hey there! What can I help you with today?','Hello! Feel free to ask me about paperloris.','Hi! How can I help you?'] },
+        // About / who
+        { q: ['who are you','who is paperloris','tell me about yourself','what is paperloris','about paperloris','introduce yourself'], a: ['paperloris is a software studio that builds thoughtful digital experiences — web apps, APIs, and design systems.','We\'re a small team focused on clean code, minimal design, and quality over velocity.','paperloris crafts software for the modern web. We work with founders and teams who care about quality.'] },
+        // What do you do
+        { q: ['what do you do','what do you offer','what services do you provide','what kind of work do you do','what can you build','your services','services offered'], a: ['We build web applications, REST and GraphQL APIs, design systems, and developer tools — from concept to production.','Our core services: full-stack web development, API architecture, design systems, and cloud infrastructure.','We specialize in taking products from prototype to production with clean, maintainable code.'] },
+        // Web development
+        { q: ['web development','web app','website','frontend','full stack','fullstack','web dev'], a: ['We build fast, accessible web apps using React, TypeScript, and modern frontend tooling.','Our web development spans from landing pages to complex SaaS dashboards. All responsive and accessible.','We craft web experiences that are performant, accessible, and a joy to use.'] },
+        // API
+        { q: ['api','rest api','graphql','backend','microservices','serverless','api design'], a: ['We design and build RESTful and GraphQL APIs that scale — from monolithic to microservices architectures.','Our APIs are designed with developer experience in mind: clear docs, consistent patterns, and robust error handling.','We build backend systems that are reliable, well-tested, and easy to maintain.'] },
+        // Design systems
+        { q: ['design system','component library','ui library','design tokens','style guide','design system'], a: ['We create component libraries with design tokens, accessibility baked in, and thorough documentation.','Design systems keep your product consistent. We build them to scale with your team and your brand.','A good design system is the foundation of a great product. We build them modular and maintainable.'] },
+        // Tech stack
+        { q: ['tech stack','what technology do you use','what framework','what language','your stack','what tools'], a: ['Our typical stack: React or TypeScript frontend, Node.js or Python backend, with the right database for the job.','We\'re polyglot — React, Node, Python, Go, Rust — we pick the best tool for each project.','We believe in using the right technology for the problem, not forcing a one-size-fits-all stack.'] },
+        // React
+        { q: ['react','reactjs','react.js','react js'], a: ['React is our go-to for complex frontends. We use it with TypeScript and modern patterns.','We have deep React expertise — hooks, context, server components, and performance optimization.'] },
+        // Python
+        { q: ['python','django','flask','fastapi'], a: ['Python is a core language for us — we use it for backend APIs, data processing, and automation.','We build Python backends with FastAPI and Flask, focusing on type safety and performance.'] },
+        // Node
+        { q: ['node','nodejs','node.js','express','nestjs'], a: ['Node.js powers many of our backends and tools. We use Express, NestJS, and modern patterns.','We build fast, scalable backends with Node.js and TypeScript.'] },
+        // Portfolio / projects
+        { q: ['portfolio','projects','your work','examples','show me your work','past projects','what have you built'], a: ['We\'ve built analytics dashboards, serverless platforms, fintech design systems, mobile apps, and dev tools.','Our portfolio includes a real-time SaaS dashboard, a cloud deployment platform, a fintech component library, and an open-source CLI.','Check out the Portfolio section — we feature a range of projects from dashboards to developer tools.'] },
+        // Pricing
+        { q: ['pricing','cost','price','how much','rates','what do you charge','budget','how much does it cost'], a: ['Every project is unique. Reach out through the Contact form and we\'ll discuss your needs and provide a custom quote.','We don\'t have fixed price lists — each project is scoped individually based on requirements. Contact us for a chat!','Pricing depends on scope and complexity. We\'ll give you a clear estimate after understanding your project.'] },
+        // Contact
+        { q: ['contact','reach you','email','get in touch','message you','how to contact','contact form'], a: ['Drop us a message through the Contact form on this site, or email paperloris@outlook.com. We reply within 24 hours.','The Contact form is the fastest way to reach us. You can also email paperloris@outlook.com directly.','We\'d love to hear from you! Use the Contact form or email paperloris@outlook.com.'] },
+        // Location
+        { q: ['where are you','location','office','based','san francisco','studio location'], a: ['We\'re based in San Francisco but work with clients worldwide. Location is never a barrier.','Our home base is San Francisco, but we collaborate remotely with teams everywhere.'] },
+        // Process
+        { q: ['your process','how do you work','workflow','methodology','how do you approach','development process'], a: ['We start with discovery to understand your needs, then move through design, build, test, and launch — iterating in 2-4 week sprints.','Our process: understand the problem, prototype solutions, build in sprints, deliver with confidence.','We follow an agile workflow with regular check-ins, transparent reporting, and continuous feedback.'] },
+        // Timeline
+        { q: ['how long','timeline','deadline','timeframe','how long does it take','when can you start'], a: ['Timelines depend on scope. Most projects start with a 2-4 week sprint cycle, and we give clear estimates upfront.','Small projects can take a few weeks, larger ones several months. We\'ll map out a timeline together.'] },
+        // Support / maintenance
+        { q: ['support','maintenance','post launch','after launch','ongoing','maintain'], a: ['We offer ongoing support and maintenance for all projects — updates, monitoring, and feature additions.','After launch, we can continue with monitoring, updates, and iterative improvements as your product grows.'] },
+        // Thanks
+        { q: ['thanks','thank you','appreciate it','cheers','thank you so much','thanks a lot'], a: ['You\'re welcome! Happy to help. Anything else you\'d like to know?','Glad I could help! Feel free to ask anytime.','My pleasure! Let me know if you have more questions.'] },
+        // Goodbye
+        { q: ['goodbye','bye','see you','later','talk later','have a good day'], a: ['Goodbye! Feel free to come back anytime.','See you later! Hope to hear from you soon.','Take care! Reach out whenever you need us.'] },
+        // What can you help with
+        { q: ['what can you help me with','what can you do','help me','i need help','i have a question'], a: ['I can answer questions about paperloris — our services, tech stack, portfolio, pricing, and more. Just ask!','I\'m here to help! Ask me about web development, APIs, design systems, or anything related to our work.'] },
+        // Mobile app
+        { q: ['mobile app','react native','ios','android','cross platform','mobile development'], a: ['We build cross-platform mobile apps using React Native, delivering native-quality experiences from a single codebase.','We have experience with React Native and can help bring your mobile idea to life.'] },
+        // Open source
+        { q: ['open source','github','oss','contribute','open source project'], a: ['We\'re passionate about open source. You can find our projects on GitHub under the paperloris organization.','We contribute to open source and build tools that help the developer community.'] },
+        // DevOps
+        { q: ['devops','ci/cd','deployment','infrastructure','cloud','docker','kubernetes'], a: ['We handle infrastructure as code — CI/CD pipelines, Docker, and cloud deployment on AWS, GCP, or your platform of choice.','We build deployment pipelines that make shipping fast and safe.'] },
+        // Testing
+        { q: ['testing','tests','quality assurance','qa','automated tests'], a: ['We write thorough tests for every critical code path — unit, integration, and end-to-end. Quality is built in, not bolted on.','Automated testing is core to our process. We don\'t ship untested code.'] },
+        // Security
+        { q: ['security','secure','authentication','auth','encryption','safe'], a: ['Security is a first-class concern. We follow OWASP guidelines, use proper auth patterns, and never cut corners.','We build with security in mind from day one — input validation, secure auth, and regular dependency audits.'] },
+        // Agency / studio
+        { q: ['are you an agency','are you a studio','team size','how many people','small team'], a: ['We\'re a small, focused studio — not a large agency. This means every project gets direct attention from senior engineers.','Our size is our strength. Small team, high quality, direct communication.'] },
+        // Remote
+        { q: ['remote','remote work','distributed','work remotely','remote team'], a: ['We\'re set up for remote collaboration. We use modern tools to stay connected and productive with clients worldwide.','Remote-first since day one. We collaborate async with clear communication and regular syncs.'] },
+        // Startups
+        { q: ['startup','founder','early stage','mvp','prototype'], a: ['We love working with startups. We can help you go from idea to MVP quickly, with clean code that scales.','Founders trust us to build their MVP because we move fast without sacrificing quality.'] },
+        // Accessibility
+        { q: ['accessibility','a11y','accessible','wcag','screen reader'], a: ['Accessibility is non-negotiable. We build to WCAG standards and test with real assistive technologies.','We believe the web should work for everyone. Every project we ship is built with accessibility in mind.'] },
+        // Performance
+        { q: ['performance','fast','speed','optimization','core web vitals','lighthouse'], a: ['Performance is a feature. We optimize for Core Web Vitals, fast load times, and smooth interactions.','We care about performance at every layer — from database queries to bundle size to perceived load time.'] },
+      ];
+
+      /* --- TF-IDF index builder --- */
+      const stopWords = new Set('a an the is was were be been have has had do does did will would can could should may might shall must to of in for on with at by from as into through during before after above below between out off over under again further then once here there when where why how all each every both few more most other some such no nor not only own same so than too very just because about up'.split(' '));
+
+      const tokenize = t => t.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 1 && !stopWords.has(w));
+
+      // Build index from training data
+      const docFreq = {};
+      const docTerms = [];
+      const allResponses = [];
+
+      trainingData.forEach((item, idx) => {
+        const terms = new Set();
+        item.q.forEach(q => tokenize(q).forEach(t => terms.add(t)));
+        docTerms.push([...terms]);
+        allResponses.push(item.a);
+        terms.forEach(t => { docFreq[t] = (docFreq[t] || 0) + 1; });
+      });
+
+      const N = trainingData.length;
+
+      const score = (tokens, idx) => {
+        let s = 0;
+        const terms = docTerms[idx];
+        const seen = new Set();
+        tokens.forEach(t => {
+          if (seen.has(t)) return;
+          seen.add(t);
+          const inDoc = terms.includes(t);
+          if (inDoc) {
+            const idf = Math.log((N + 1) / (docFreq[t] + 1)) + 1;
+            s += idf;
+          }
+        });
+        return s;
+      };
+
+      const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+      const reply = text => {
+        const tokens = tokenize(text);
+        if (!tokens.length) return pick(fallbacks);
+
+        let best = 0, bestIdx = 0;
+        for (let i = 0; i < N; i++) {
+          const s = score(tokens, i);
+          if (s > best) { best = s; bestIdx = i; }
+        }
+
+        const matched = trainingData[bestIdx];
+        const entity = text.match(/\b(react|vue|angular|svelte|node\.?js|python|go|rust|typescript|graphql|api|docker|kubernetes|aws)\b/i);
+        let response = pick(matched.a);
+
+        if (entity && (matched.q.some(q => /\b(tech|stack|framework|language|tool)\b/i.test(q) || /\b(react|python|node)\b/i.test(q)))) {
+          const techResponses = [
+            'Great question about ' + entity[1] + '! ' + response,
+            'We have solid experience with ' + entity[1] + '. ' + response,
+            entity[1] + ' is definitely in our wheelhouse. ' + response,
+          ];
+          response = pick(techResponses);
+        }
+
+        return response;
+      };
+
+      const fallbacks = [
+        'That\'s interesting! Could you tell me more about your project?',
+        'I\'d love to help with that. Can you share some more details?',
+        'Got it! What kind of project did you have in mind?',
+        'I see. Feel free to ask about our services, tech stack, or portfolio.',
+        'Thanks for reaching out! What specifically are you looking for?',
+      ];
+
+      const addMsg = (text, sender) => {
+        const div = document.createElement('div');
+        div.className = 'chat-msg chat-msg--' + sender;
+        div.innerHTML = '<span class="chat-msg__sender">' + sender + '</span><p class="chat-msg__text">' + text.replace(/</g, '&lt;') + '</p>';
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+      };
+
+      const showTyping = () => {
+        const div = document.createElement('div');
+        div.className = 'chat-msg chat-msg--bot';
+        div.id = 'chatTyping';
+        div.innerHTML = '<span class="chat-msg__sender">bot</span><div class="chat-msg__typing"><span></span><span></span><span></span></div>';
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+        return div;
+      };
+
+      /* --- Optionally fetch external training data --- */
+      (async () => {
+        try {
+          const res = await fetch('training.json');
+          if (res.ok) {
+            const external = await res.json();
+            if (Array.isArray(external)) {
+              external.forEach(item => {
+                if (item.q && item.a) {
+                  trainingData.push(item);
+                  const terms = [...new Set(item.q.flatMap(q => tokenize(q)))];
+                  docTerms.push(terms);
+                  allResponses.push(item.a);
+                  terms.forEach(t => { docFreq[t] = (docFreq[t] || 0) + 1; });
+                }
+              });
+            }
+          }
+        } catch {}
+      })();
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        addMsg(text, 'user');
+        input.value = '';
+        const typing = showTyping();
+        setTimeout(() => {
+          typing.remove();
+          addMsg(reply(text), 'bot');
+        }, 250 + Math.random() * 350);
+      });
+    })();
+  </script>
+</body>
+</html>
