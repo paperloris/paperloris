@@ -11,14 +11,14 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://paperloris.in">
   <meta name="twitter:card" content="summary">
-  <meta name="theme-color" content="#f5f3ef" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fdf8f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171412" media="(prefers-color-scheme: dark)">
 
   <link rel="dns-prefetch" href="https://picsum.photos">
   <link rel="preconnect" href="https://picsum.photos">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,450;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:ital,wght@0,300;0,400;0,450;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="assets/images/Loris.png" type="image/png">
 
@@ -43,7 +43,7 @@
   <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
   <noscript>
-    <div style="padding:1rem;text-align:center;background:#ef4444;color:#fff;font-size:0.75rem;">
+    <div style="padding:1rem;text-align:center;background:#ea580c;color:#fff;font-size:0.75rem;">
       paperloris requires JavaScript for theme toggle, smooth scroll, and animations. Please enable JavaScript.
     </div>
   </noscript>
@@ -51,10 +51,7 @@
 
   <header class="header" id="header">
     <div class="container">
-          <a href="#" class="logo">
-            <img src="assets/images/black.png" alt="paperloris" width="48" height="48" class="logo__img logo__img--light">
-            <img src="assets/images/white.png" alt="paperloris" width="48" height="48" class="logo__img logo__img--dark">
-          </a>
+          <a href="#" class="logo">paperloris</a>
       <div class="header__right">
         <nav class="nav" aria-label="Primary navigation">
           <ul class="nav-list" id="navList">
@@ -445,6 +442,34 @@
     const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
     const $ = (s, p) => (p || document).querySelector(s);
     const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
+
+    /* --- Sound effects --- */
+    (() => {
+      let ctx = null;
+      const play = (freq, dur, vol) => {
+        try {
+          if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(vol, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + dur);
+        } catch {}
+      };
+      const click = () => play(600, 0.08, 0.04);
+      document.addEventListener('click', e => {
+        const t = e.target.closest('a, button, .chat-btn, .btn, .nav-toggle, .theme-toggle, .back-to-top, .chat-toggle, .chat-panel__close, .modal__close, .social-link');
+        if (!t) return;
+        click();
+        t.classList.add('click-zoom');
+        setTimeout(() => t.classList.remove('click-zoom'), 200);
+      }, { passive: true });
+    })();
 
     /* --- DOM refs --- */
     const navToggle = $('#navToggle');
