@@ -846,44 +846,30 @@
         } catch {}
       })();
 
-      /* --- Ollama integration --- */
-      const OLLAMA_URL = 'http://localhost:11434/api/chat';
-      const OLLAMA_MODEL = 'llama3.2';
-      let ollamaAvailable = null;
-
-      const checkOllama = async () => {
+      /* --- Preload sound --- */
+      let ctx = null;
+      const playClick = () => {
         try {
-          const res = await fetch(OLLAMA_URL.replace('/api/chat', ''), { signal: AbortSignal.timeout(2000) });
-          ollamaAvailable = res.ok;
-        } catch { ollamaAvailable = false; }
-      };
-      checkOllama();
-
-      const ollamaReply = async (text) => {
-        try {
-          const res = await fetch(OLLAMA_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              model: OLLAMA_MODEL,
-              messages: [
-                { role: 'system', content: 'You are the assistant for paperloris, a software studio. Answer concisely about web development, APIs, design systems, and our services. Keep responses short and helpful.' },
-                { role: 'user', content: text }
-              ],
-              stream: false
-            }),
-            signal: AbortSignal.timeout(10000)
-          });
-          if (!res.ok) return null;
-          const data = await res.json();
-          return data.message?.content || null;
-        } catch { return null; }
+          if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+          if (ctx.state === 'suspended') ctx.resume();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = 600;
+          gain.gain.setValueAtTime(0.04, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.08);
+        } catch {}
       };
 
       /* --- Button clicks --- */
       $('#chatButtons').addEventListener('click', e => {
         const btn = e.target.closest('.chat-btn');
         if (!btn) return;
+        playClick();
         const text = btn.textContent.trim();
         addMsg(text, 'user');
         btn.classList.add('chat-btn--hidden');
@@ -900,29 +886,16 @@
         e.preventDefault();
         const text = input.value.trim();
         if (!text) return;
+        playClick();
         addMsg(text, 'user');
         input.value = '';
         const typing = showTyping();
-
-        const respond = async () => {
-          if (ollamaAvailable) {
-            const ollamaResponse = await ollamaReply(text);
-            if (ollamaResponse) {
-              typing.remove();
-              addMsg(ollamaResponse, 'bot');
-              return;
-            }
-            ollamaAvailable = false;
-          }
-
-          setTimeout(() => {
-            typing.remove();
-            const result = reply(text, prevMatch);
-            prevMatch = result.idx;
-            addMsg(result.text, 'bot');
-          }, 300 + Math.random() * 300);
-        };
-        respond();
+        setTimeout(() => {
+          typing.remove();
+          const result = reply(text, prevMatch);
+          prevMatch = result.idx;
+          addMsg(result.text, 'bot');
+        }, 300 + Math.random() * 300);
       });
 
     })();
