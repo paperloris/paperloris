@@ -443,34 +443,13 @@
     const $ = (s, p) => (p || document).querySelector(s);
     const $$ = (s, p) => [...(p || document).querySelectorAll(s)];
 
-    /* --- Sound effects --- */
-    (() => {
-      let ctx = null;
-      const play = (freq, dur, vol) => {
-        try {
-          if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-          if (ctx.state === 'suspended') ctx.resume();
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = freq;
-          gain.gain.setValueAtTime(vol, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(ctx.currentTime);
-          osc.stop(ctx.currentTime + dur);
-        } catch {}
-      };
-      const click = () => play(600, 0.08, 0.04);
-      document.addEventListener('click', e => {
-        const t = e.target.closest('a, button, .chat-btn, .btn, .nav-toggle, .theme-toggle, .back-to-top, .chat-toggle, .chat-panel__close, .modal__close, .social-link');
-        if (!t) return;
-        click();
-        t.classList.add('click-zoom');
-        setTimeout(() => t.classList.remove('click-zoom'), 200);
-      }, { passive: true });
-    })();
+    /* --- Click zoom effect --- */
+    document.addEventListener('click', e => {
+      const t = e.target.closest('a, button, .chat-btn, .btn, .nav-toggle, .theme-toggle, .back-to-top, .chat-toggle, .chat-panel__close, .modal__close, .social-link');
+      if (!t) return;
+      t.classList.add('click-zoom');
+      setTimeout(() => t.classList.remove('click-zoom'), 200);
+    }, { passive: true });
 
     /* --- DOM refs --- */
     const navToggle = $('#navToggle');
