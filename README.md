@@ -24,5 +24,3 @@ Single-page brand website for Paperloris — built with HTML5 and CSS3.
 ## Open
 
 Open `index.html` in any modern browser. No build step.
-"# paperloris" 
-"# paperloris" 
