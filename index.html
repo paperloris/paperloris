@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,450;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/images/Loris.png" type="image/png">
 
   <script type="application/ld+json">
   {
@@ -50,7 +51,10 @@
 
   <header class="header" id="header">
     <div class="container">
-          <a href="#" class="logo"><span class="sc">paperloris</span></a>
+          <a href="#" class="logo">
+            <img src="assets/images/black.png" alt="paperloris" width="48" height="48" class="logo__img logo__img--light">
+            <img src="assets/images/white.png" alt="paperloris" width="48" height="48" class="logo__img logo__img--dark">
+          </a>
       <div class="header__right">
         <nav class="nav" aria-label="Primary navigation">
           <ul class="nav-list" id="navList">
@@ -87,6 +91,10 @@
     <section class="hero" id="home">
       <div class="hero-bg" aria-hidden="true">
         <img src="assets/images/hero-bg.svg" alt="" aria-hidden="true" width="1440" height="900">
+      </div>
+      <div class="hero-logo" aria-hidden="true">
+        <img src="assets/images/black.png" alt="" class="hero-logo__img hero-logo__img--light">
+        <img src="assets/images/white.png" alt="" class="hero-logo__img hero-logo__img--dark">
       </div>
       <div class="container">
         <div class="hero__content reveal revealed">
@@ -307,7 +315,9 @@
           <p class="section-desc">Have a project in mind? We'd love to hear from you.</p>
         </div>
         <div class="contact__grid">
-          <form class="contact-form reveal reveal--d1" novalidate>
+          <form class="contact-form reveal reveal--d1" action="https://formsubmit.co/paperloris@outlook.com" method="POST" target="formIframe" novalidate>
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="about:blank">
             <div class="contact-form__group">
               <label for="name" class="contact-form__label">Name</label>
               <input type="text" id="name" name="name" class="contact-form__input" placeholder="your name" required>
@@ -322,6 +332,7 @@
             </div>
             <button type="submit" class="btn btn--primary">Send &rarr;</button>
           </form>
+          <iframe name="formIframe" style="display:none" aria-hidden="true"></iframe>
           <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
             <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
               <button class="modal__close" id="modalClose" aria-label="Close">&times;</button>
@@ -414,13 +425,19 @@
     <div class="chat-panel__messages" id="chatMessages">
       <div class="chat-msg chat-msg--bot">
         <span class="chat-msg__sender">bot</span>
-        <p class="chat-msg__text">Hi! Ask me about our services, tech stack, or anything else.</p>
+        <p class="chat-msg__text">Hi! What would you like to know?</p>
+      </div>
+      <div class="chat-buttons" id="chatButtons">
+        <button class="chat-btn" data-query="services">Services</button>
+        <button class="chat-btn" data-query="tech stack">Tech Stack</button>
+        <button class="chat-btn" data-query="pricing">Pricing</button>
+        <button class="chat-btn" data-query="portfolio">Portfolio</button>
+        <button class="chat-btn" data-query="contact">Contact</button>
+        <button class="chat-btn" data-query="process">Process</button>
+        <button class="chat-btn" data-query="who is paperloris">About</button>
       </div>
     </div>
-    <form class="chat-panel__input-area" id="chatForm">
-      <input type="text" class="chat-panel__input" id="chatInput" placeholder="type a message..." autocomplete="off" required>
-      <button type="submit" class="chat-panel__send" aria-label="Send">&rarr;</button>
-    </form>
+    <form class="chat-panel__input-area" id="chatForm" style="display:none">
   </aside>
 
   <script>
@@ -566,14 +583,14 @@
         });
       });
       form.addEventListener('submit', e => {
-        e.preventDefault();
         let valid = true;
         inputs.forEach(input => { if (!input.checkValidity()) { mark(input, false); valid = false; } });
-        if (valid) {
-          $('#modalOverlay').classList.add('modal-overlay--open');
+        if (!valid) { e.preventDefault(); return; }
+        $('#modalOverlay').classList.add('modal-overlay--open');
+        setTimeout(() => {
           form.reset();
           inputs.forEach(i => i.classList.remove('contact-form__input--touched', 'contact-form__input--error'));
-        }
+        }, 100);
       });
     })();
 
@@ -605,142 +622,184 @@
       close.addEventListener('click', closePanel);
       document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel.classList.contains('chat-panel--open')) closePanel(); });
 
-      /* --- Training data: ~100 phrase→response pairs --- */
+      /* ====================================================
+         Enhanced TF-IDF chatbot with bigrams, memory & entities
+         ==================================================== */
+
       const trainingData = [
-        // Greetings
-        { q: ['hello','hi','hey','greetings','good morning','good evening','howdy','sup','yo'], a: ['Hey there! What can I help you with today?','Hello! Feel free to ask me about paperloris.','Hi! How can I help you?'] },
-        // About / who
-        { q: ['who are you','who is paperloris','tell me about yourself','what is paperloris','about paperloris','introduce yourself'], a: ['paperloris is a software studio that builds thoughtful digital experiences — web apps, APIs, and design systems.','We\'re a small team focused on clean code, minimal design, and quality over velocity.','paperloris crafts software for the modern web. We work with founders and teams who care about quality.'] },
-        // What do you do
-        { q: ['what do you do','what do you offer','what services do you provide','what kind of work do you do','what can you build','your services','services offered'], a: ['We build web applications, REST and GraphQL APIs, design systems, and developer tools — from concept to production.','Our core services: full-stack web development, API architecture, design systems, and cloud infrastructure.','We specialize in taking products from prototype to production with clean, maintainable code.'] },
-        // Web development
-        { q: ['web development','web app','website','frontend','full stack','fullstack','web dev'], a: ['We build fast, accessible web apps using React, TypeScript, and modern frontend tooling.','Our web development spans from landing pages to complex SaaS dashboards. All responsive and accessible.','We craft web experiences that are performant, accessible, and a joy to use.'] },
-        // API
-        { q: ['api','rest api','graphql','backend','microservices','serverless','api design'], a: ['We design and build RESTful and GraphQL APIs that scale — from monolithic to microservices architectures.','Our APIs are designed with developer experience in mind: clear docs, consistent patterns, and robust error handling.','We build backend systems that are reliable, well-tested, and easy to maintain.'] },
-        // Design systems
-        { q: ['design system','component library','ui library','design tokens','style guide','design system'], a: ['We create component libraries with design tokens, accessibility baked in, and thorough documentation.','Design systems keep your product consistent. We build them to scale with your team and your brand.','A good design system is the foundation of a great product. We build them modular and maintainable.'] },
-        // Tech stack
-        { q: ['tech stack','what technology do you use','what framework','what language','your stack','what tools'], a: ['Our typical stack: React or TypeScript frontend, Node.js or Python backend, with the right database for the job.','We\'re polyglot — React, Node, Python, Go, Rust — we pick the best tool for each project.','We believe in using the right technology for the problem, not forcing a one-size-fits-all stack.'] },
-        // React
-        { q: ['react','reactjs','react.js','react js'], a: ['React is our go-to for complex frontends. We use it with TypeScript and modern patterns.','We have deep React expertise — hooks, context, server components, and performance optimization.'] },
-        // Python
-        { q: ['python','django','flask','fastapi'], a: ['Python is a core language for us — we use it for backend APIs, data processing, and automation.','We build Python backends with FastAPI and Flask, focusing on type safety and performance.'] },
-        // Node
-        { q: ['node','nodejs','node.js','express','nestjs'], a: ['Node.js powers many of our backends and tools. We use Express, NestJS, and modern patterns.','We build fast, scalable backends with Node.js and TypeScript.'] },
-        // Portfolio / projects
-        { q: ['portfolio','projects','your work','examples','show me your work','past projects','what have you built'], a: ['We\'ve built analytics dashboards, serverless platforms, fintech design systems, mobile apps, and dev tools.','Our portfolio includes a real-time SaaS dashboard, a cloud deployment platform, a fintech component library, and an open-source CLI.','Check out the Portfolio section — we feature a range of projects from dashboards to developer tools.'] },
-        // Pricing
-        { q: ['pricing','cost','price','how much','rates','what do you charge','budget','how much does it cost'], a: ['Every project is unique. Reach out through the Contact form and we\'ll discuss your needs and provide a custom quote.','We don\'t have fixed price lists — each project is scoped individually based on requirements. Contact us for a chat!','Pricing depends on scope and complexity. We\'ll give you a clear estimate after understanding your project.'] },
-        // Contact
-        { q: ['contact','reach you','email','get in touch','message you','how to contact','contact form'], a: ['Drop us a message through the Contact form on this site, or email paperloris@outlook.com. We reply within 24 hours.','The Contact form is the fastest way to reach us. You can also email paperloris@outlook.com directly.','We\'d love to hear from you! Use the Contact form or email paperloris@outlook.com.'] },
-        // Location
-        { q: ['where are you','location','office','based','san francisco','studio location'], a: ['We\'re based in San Francisco but work with clients worldwide. Location is never a barrier.','Our home base is San Francisco, but we collaborate remotely with teams everywhere.'] },
-        // Process
-        { q: ['your process','how do you work','workflow','methodology','how do you approach','development process'], a: ['We start with discovery to understand your needs, then move through design, build, test, and launch — iterating in 2-4 week sprints.','Our process: understand the problem, prototype solutions, build in sprints, deliver with confidence.','We follow an agile workflow with regular check-ins, transparent reporting, and continuous feedback.'] },
-        // Timeline
-        { q: ['how long','timeline','deadline','timeframe','how long does it take','when can you start'], a: ['Timelines depend on scope. Most projects start with a 2-4 week sprint cycle, and we give clear estimates upfront.','Small projects can take a few weeks, larger ones several months. We\'ll map out a timeline together.'] },
-        // Support / maintenance
-        { q: ['support','maintenance','post launch','after launch','ongoing','maintain'], a: ['We offer ongoing support and maintenance for all projects — updates, monitoring, and feature additions.','After launch, we can continue with monitoring, updates, and iterative improvements as your product grows.'] },
-        // Thanks
-        { q: ['thanks','thank you','appreciate it','cheers','thank you so much','thanks a lot'], a: ['You\'re welcome! Happy to help. Anything else you\'d like to know?','Glad I could help! Feel free to ask anytime.','My pleasure! Let me know if you have more questions.'] },
-        // Goodbye
-        { q: ['goodbye','bye','see you','later','talk later','have a good day'], a: ['Goodbye! Feel free to come back anytime.','See you later! Hope to hear from you soon.','Take care! Reach out whenever you need us.'] },
-        // What can you help with
-        { q: ['what can you help me with','what can you do','help me','i need help','i have a question'], a: ['I can answer questions about paperloris — our services, tech stack, portfolio, pricing, and more. Just ask!','I\'m here to help! Ask me about web development, APIs, design systems, or anything related to our work.'] },
-        // Mobile app
-        { q: ['mobile app','react native','ios','android','cross platform','mobile development'], a: ['We build cross-platform mobile apps using React Native, delivering native-quality experiences from a single codebase.','We have experience with React Native and can help bring your mobile idea to life.'] },
-        // Open source
-        { q: ['open source','github','oss','contribute','open source project'], a: ['We\'re passionate about open source. You can find our projects on GitHub under the paperloris organization.','We contribute to open source and build tools that help the developer community.'] },
-        // DevOps
-        { q: ['devops','ci/cd','deployment','infrastructure','cloud','docker','kubernetes'], a: ['We handle infrastructure as code — CI/CD pipelines, Docker, and cloud deployment on AWS, GCP, or your platform of choice.','We build deployment pipelines that make shipping fast and safe.'] },
-        // Testing
-        { q: ['testing','tests','quality assurance','qa','automated tests'], a: ['We write thorough tests for every critical code path — unit, integration, and end-to-end. Quality is built in, not bolted on.','Automated testing is core to our process. We don\'t ship untested code.'] },
-        // Security
-        { q: ['security','secure','authentication','auth','encryption','safe'], a: ['Security is a first-class concern. We follow OWASP guidelines, use proper auth patterns, and never cut corners.','We build with security in mind from day one — input validation, secure auth, and regular dependency audits.'] },
-        // Agency / studio
-        { q: ['are you an agency','are you a studio','team size','how many people','small team'], a: ['We\'re a small, focused studio — not a large agency. This means every project gets direct attention from senior engineers.','Our size is our strength. Small team, high quality, direct communication.'] },
-        // Remote
-        { q: ['remote','remote work','distributed','work remotely','remote team'], a: ['We\'re set up for remote collaboration. We use modern tools to stay connected and productive with clients worldwide.','Remote-first since day one. We collaborate async with clear communication and regular syncs.'] },
-        // Startups
-        { q: ['startup','founder','early stage','mvp','prototype'], a: ['We love working with startups. We can help you go from idea to MVP quickly, with clean code that scales.','Founders trust us to build their MVP because we move fast without sacrificing quality.'] },
-        // Accessibility
-        { q: ['accessibility','a11y','accessible','wcag','screen reader'], a: ['Accessibility is non-negotiable. We build to WCAG standards and test with real assistive technologies.','We believe the web should work for everyone. Every project we ship is built with accessibility in mind.'] },
-        // Performance
-        { q: ['performance','fast','speed','optimization','core web vitals','lighthouse'], a: ['Performance is a feature. We optimize for Core Web Vitals, fast load times, and smooth interactions.','We care about performance at every layer — from database queries to bundle size to perceived load time.'] },
+        { q: ['hello','hi','hey','greetings','good morning','good evening','howdy','sup','yo','hey there'], a: ['Hey there! What can I help you with today?','Hello! Feel free to ask me about paperloris.','Hi! How can I help you?','Hey! I\'m the paperloris assistant. What\'s on your mind?'] },
+        { q: ['who are you','who is paperloris','tell me about yourself','what is paperloris','about paperloris','introduce yourself','tell us about paperloris'], a: ['paperloris is a software studio that builds thoughtful digital experiences — web apps, APIs, and design systems.','We\'re a small team focused on clean code, minimal design, and quality over velocity.','paperloris crafts software for the modern web. We work with founders and teams who care about quality.','Think of us as a digital atelier — we craft software with the same care a paper artisan brings to their work.'] },
+        { q: ['what do you do','what do you offer','what services do you provide','what kind of work do you do','what can you build','your services','services offered','tell me what you do'], a: ['We build web applications, REST and GraphQL APIs, design systems, and developer tools — from concept to production.','Our core services: full-stack web development, API architecture, design systems, and cloud infrastructure.','We specialize in taking products from prototype to production with clean, maintainable code.','Everything from landing pages to distributed systems — all built with attention to detail.'] },
+        { q: ['web development','web app','website','frontend','full stack','fullstack','web dev','build a website','need a website'], a: ['We build fast, accessible web apps using React, TypeScript, and modern frontend tooling.','Our web development spans from landing pages to complex SaaS dashboards. All responsive and accessible.','We craft web experiences that are performant, accessible, and a joy to use.','Frontend, backend, or both — we handle the full spectrum of web development.'] },
+        { q: ['api','rest api','graphql','backend','microservices','serverless','api design','backend development'], a: ['We design and build RESTful and GraphQL APIs that scale — from monolithic to microservices architectures.','Our APIs are designed with developer experience in mind: clear docs, consistent patterns, and robust error handling.','We build backend systems that are reliable, well-tested, and easy to maintain.','From REST to GraphQL to event-driven — we pick what fits your use case.'] },
+        { q: ['design system','component library','ui library','design tokens','style guide','design system','design system development'], a: ['We create component libraries with design tokens, accessibility baked in, and thorough documentation.','Design systems keep your product consistent. We build them to scale with your team and your brand.','A good design system is the foundation of a great product. We build them modular and maintainable.'] },
+        { q: ['tech stack','what technology do you use','what framework','what language','your stack','what tools','technology stack'], a: ['Our typical stack: React or TypeScript frontend, Node.js or Python backend, with the right database for the job.','We\'re polyglot — React, Node, Python, Go, Rust — we pick the best tool for each project.','We believe in using the right technology for the problem, not forcing a one-size-fits-all stack.'] },
+        { q: ['react','reactjs','react.js','react js','react development'], a: ['React is our go-to for complex frontends. We use it with TypeScript and modern patterns.','We have deep React expertise — hooks, context, server components, and performance optimization.','Our React code is clean, typed, and thoroughly tested. We follow the latest patterns.'] },
+        { q: ['python','django','flask','fastapi','python development'], a: ['Python is a core language for us — we use it for backend APIs, data processing, and automation.','We build Python backends with FastAPI and Flask, focusing on type safety and performance.','Python is our go-to for data-heavy backends, ML pipelines, and automation tooling.'] },
+        { q: ['node','nodejs','node.js','express','nestjs','node backend'], a: ['Node.js powers many of our backends and tools. We use Express, NestJS, and modern patterns.','We build fast, scalable backends with Node.js and TypeScript. Perfect for real-time apps.'] },
+        { q: ['portfolio','projects','your work','examples','show me your work','past projects','what have you built','show me'], a: ['We\'ve built analytics dashboards, serverless platforms, fintech design systems, mobile apps, and dev tools.','Our portfolio includes a real-time SaaS dashboard, a cloud deployment platform, a fintech component library, and an open-source CLI.','Check out the Portfolio section — we feature a range of projects from dashboards to developer tools.','We\'ve shipped products used by thousands. Scroll down to the Portfolio section for details.'] },
+        { q: ['pricing','cost','price','how much','rates','what do you charge','budget','how much does it cost','cost of','expensive','affordable'], a: ['Every project is unique. Reach out through the Contact form and we\'ll discuss your needs and provide a custom quote.','We don\'t have fixed price lists — each project is scoped individually based on requirements. Contact us for a chat!','Pricing depends on scope and complexity. We\'ll give you a clear estimate after understanding your project.','We\'re transparent with pricing. Drop us a message and we\'ll walk through what a project like yours typically costs.'] },
+        { q: ['contact','reach you','email','get in touch','message you','how to contact','contact form','reach out'], a: ['Drop us a message through the Contact form on this site, or email paperloris@outlook.com. We reply within 24 hours.','The Contact form is the fastest way to reach us. You can also email paperloris@outlook.com directly.','We\'d love to hear from you! Use the Contact form or email paperloris@outlook.com.'] },
+        { q: ['where are you','location','office','based','studio location','headquarters'], a: ['We\'re based in Maharashtra, India but work with clients worldwide. Location is never a barrier.','Our home base is Maharashtra, India, but we collaborate remotely with teams everywhere.','We\'re a distributed studio based in India, working with clients across the globe.'] },
+        { q: ['process','how do you work','workflow','methodology','how do you approach','development process','your process'], a: ['We start with discovery to understand your needs, then move through design, build, test, and launch — iterating in 2-4 week sprints.','Our process: understand the problem, prototype solutions, build in sprints, deliver with confidence.','We follow an agile workflow with regular check-ins, transparent reporting, and continuous feedback.'] },
+        { q: ['timeline','how long','deadline','timeframe','how long does it take','when can you start','how fast','delivery time'], a: ['Timelines depend on scope. Most projects start with a 2-4 week sprint cycle, and we give clear estimates upfront.','Small projects can take a few weeks, larger ones several months. We\'ll map out a timeline together.','We\'ll give you a realistic timeline after understanding your project scope and complexity.'] },
+        { q: ['support','maintenance','post launch','after launch','ongoing','maintain','keep running'], a: ['We offer ongoing support and maintenance for all projects — updates, monitoring, and feature additions.','After launch, we can continue with monitoring, updates, and iterative improvements as your product grows.','We don\'t disappear after shipping. Long-term support is part of our service.'] },
+        { q: ['thanks','thank you','appreciate it','cheers','thank you so much','thanks a lot','awesome thanks'], a: ['You\'re welcome! Happy to help. Anything else you\'d like to know?','Glad I could help! Feel free to ask anytime.','My pleasure! Let me know if you have more questions.','Anytime! That\'s what I\'m here for.'] },
+        { q: ['goodbye','bye','see you','later','talk later','have a good day','catch you later'], a: ['Goodbye! Feel free to come back anytime.','See you later! Hope to hear from you soon.','Take care! Reach out whenever you need us.','Bye! Don\'t hesitate to return if you have more questions.'] },
+        { q: ['what can you help me with','what can you do','help me','i need help','i have a question','assist me'], a: ['I can answer questions about paperloris — our services, tech stack, portfolio, pricing, and more. Just ask!','I\'m here to help! Ask me about web development, APIs, design systems, or anything related to our work.','Think of me as paperloris\'s digital front desk. Ask me anything about the studio!'] },
+        { q: ['mobile app','react native','ios','android','cross platform','mobile development','app development'], a: ['We build cross-platform mobile apps using React Native, delivering native-quality experiences from a single codebase.','We have experience with React Native and can help bring your mobile idea to life.','Our React Native expertise means you get iOS + Android from one codebase.'] },
+        { q: ['open source','github','oss','contribute','open source project','open source contribution'], a: ['We\'re passionate about open source. You can find our projects on GitHub under the paperloris organization.','We contribute to open source and build tools that help the developer community.','Open source is in our DNA. We build tools we\'d want to use ourselves and share them freely.'] },
+        { q: ['devops','ci/cd','deployment','infrastructure','cloud','docker','kubernetes','deploy'], a: ['We handle infrastructure as code — CI/CD pipelines, Docker, and cloud deployment on AWS, GCP, or your platform of choice.','We build deployment pipelines that make shipping fast and safe.','From Docker containers to Kubernetes clusters — we handle the full DevOps lifecycle.'] },
+        { q: ['testing','tests','quality assurance','qa','automated tests','test coverage'], a: ['We write thorough tests for every critical code path — unit, integration, and end-to-end. Quality is built in, not bolted on.','Automated testing is core to our process. We don\'t ship untested code.','Testing isn\'t an afterthought for us. We practice test-driven development and maintain high coverage.'] },
+        { q: ['security','secure','authentication','auth','encryption','safe','secure code','owasp'], a: ['Security is a first-class concern. We follow OWASP guidelines, use proper auth patterns, and never cut corners.','We build with security in mind from day one — input validation, secure auth, and regular dependency audits.','Your data and your users\' trust matter. We take security seriously at every layer.'] },
+        { q: ['agency','are you an agency','are you a studio','team size','how many people','small team','your team'], a: ['We\'re a small, focused studio — not a large agency. This means every project gets direct attention from senior engineers.','Our size is our strength. Small team, high quality, direct communication.','We\'re a boutique studio. Every client works directly with the people building their product.'] },
+        { q: ['remote','remote work','distributed','work remotely','remote team','work from'], a: ['We\'re set up for remote collaboration. We use modern tools to stay connected and productive with clients worldwide.','Remote-first since day one. We collaborate async with clear communication and regular syncs.'] },
+        { q: ['startup','founder','early stage','mvp','prototype','startup founder','minimum viable product'], a: ['We love working with startups. We can help you go from idea to MVP quickly, with clean code that scales.','Founders trust us to build their MVP because we move fast without sacrificing quality.','We\'ve helped multiple startups launch their first product. Speed + quality is our promise.'] },
+        { q: ['accessibility','a11y','accessible','wcag','screen reader','inclusive design'], a: ['Accessibility is non-negotiable. We build to WCAG standards and test with real assistive technologies.','We believe the web should work for everyone. Every project we ship is built with accessibility in mind.','Inclusive design isn\'t a checklist — it\'s part of our development DNA.'] },
+        { q: ['performance','fast','speed','optimization','core web vitals','lighthouse','load time'], a: ['Performance is a feature. We optimize for Core Web Vitals, fast load times, and smooth interactions.','We care about performance at every layer — from database queries to bundle size to perceived load time.','A fast site is a good site. We obsess over performance metrics and real user experience.'] },
+        { q: ['consulting','consultation','tech advice','architecture review','code review','audit'], a: ['We offer consulting services — architecture reviews, code audits, and technical strategy.','Need an expert eye on your codebase? We do architecture reviews and technical consulting.','Sometimes you just need a second pair of eyes. We provide thorough technical evaluations.'] },
+        { q: ['hire','hiring','careers','job','work at','join','internship'], a: ['We\'re not actively hiring right now, but we\'re always open to connecting with talented people. Reach out through the Contact form!','While we\'re a small team without open positions, we appreciate your interest. Say hello via the Contact form!'] },
+        { q: ['go','golang','go lang','go language'], a: ['Go is in our toolkit for high-performance backends and CLI tools. It\'s great for concurrent systems.','We use Go when we need raw performance and simplicity — microservices and CLI tools especially.'] },
+        { q: ['rust','rust lang','rust language','rust programming'], a: ['Rust excites us for systems programming where performance and safety matter most.','We reach for Rust when we need zero-cost abstractions and memory safety without a garbage collector.'] },
+        { q: ['database','db','postgres','sql','mongodb','database choice'], a: ['We choose databases based on your data model — PostgreSQL for relational, SQLite for simplicity, MongoDB for document needs.','The right database makes everything easier. We\'re experienced with SQL and NoSQL solutions.'] },
+        { q: ['blog','post','article','write','content','case study'], a: ['We\'re working on putting together case studies and articles. Check back soon or reach out and we\'ll share what we\'ve learned!','Content is coming! In the meantime, the Portfolio section gives a good overview of our work.'] },
+        { q: ['website','this website','built with','made with'], a: ['This site is built with vanilla HTML, CSS, and JavaScript — no frameworks, pure craftsmanship.','It\'s a single-page site with a terminal-inspired design. All hand-coded, no build tools needed.'] },
+        { q: ['problem','i need help with','issue','bug','error','debug','troubleshoot'], a: ['Tell me more about the issue you\'re facing! While I can\'t debug your code directly, I can point you to relevant resources.','Describe the problem and I\'ll do my best to help or connect you with the right person.'] },
+        { q: ['feature','add feature','new feature','custom development','build something'], a: ['We love building new features! Tell us about what you need and we can scope it out.','Custom feature development is one of our core offerings. Let us know what you\'re looking for.'] },
+        { q: ['typescript','ts','type script'], a: ['TypeScript is our standard for any serious JavaScript project. Type safety saves headaches.','We use TypeScript everywhere — frontend, backend, you name it. It catches bugs before they happen.'] },
+        { q: ['next.js','nextjs','next','next js'], a: ['Next.js is our preferred React framework for production apps — SSR, ISR, and great DX.','We build heavily with Next.js. It combines the best of static and server-rendered approaches.'] },
+        { q: ['vue','vuejs','vue.js','vue js'], a: ['We know Vue well too! While React is our primary frontend tool, we\'ve built several projects with Vue.','Vue is elegant and approachable. We\'re comfortable with Vue 3 and the Composition API.'] },
+        { q: ['tailwind','tailwind css','tailwindcss'], a: ['Tailwind CSS is our go-to for styling — utility-first, highly customizable, and great developer experience.','We love Tailwind. It keeps our CSS predictable, consistent, and easy to maintain.'] },
+        { q: ['cms','content management','headless cms','strapi','contentful'], a: ['We integrate with headless CMS platforms like Strapi, Contentful, and Sanity for content-driven sites.','A headless CMS gives you flexibility. We\'ve worked with most major platforms and can recommend the right fit.'] },
+        { q: ['e commerce','ecommerce','shop','store','online store','shopify'], a: ['We build e-commerce experiences — from custom storefronts to Shopify integrations.','E-commerce is part of our web development expertise. We build fast, conversion-optimized stores.'] },
+        { q: ['domain','paperloris.in','website address'], a: ['Our domain is paperloris.in — simple, clean, and easy to remember.','You\'re on it! paperloris.in is where we call home online.'] },
+        { q: ['animation','motion','transition','css animation','interaction'], a: ['We believe in purposeful motion — animations that guide, delight, and inform without being distracting.','Subtle, meaningful animation is part of our design philosophy. Every transition should serve a purpose.'] },
       ];
 
-      /* --- TF-IDF index builder --- */
+      /* --- Conversational context (last 3 turns) --- */
+      const context = [];
+
+      /* --- Utils --- */
+      const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+      const levenshtein = (a, b) => { if (!a.length) return b.length; if (!b.length) return a.length; const t = []; for (let i = 0; i <= b.length; i++) t[i] = i; for (let i = 0; i < a.length; i++) { let u = i+1; for (let j = 0; j < b.length; j++) { const v = t[j] + (a[i]!==b[j]); t[j] = u; u = Math.min(t[j]+1, u+1, t[j+1]+1); } t[b.length] = u; } return t[b.length]; };
+
       const stopWords = new Set('a an the is was were be been have has had do does did will would can could should may might shall must to of in for on with at by from as into through during before after above below between out off over under again further then once here there when where why how all each every both few more most other some such no nor not only own same so than too very just because about up'.split(' '));
 
       const tokenize = t => t.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 1 && !stopWords.has(w));
+      const bigrams = tokens => tokens.flatMap((t, i) => i < tokens.length-1 ? [t, t+'_'+tokens[i+1]] : [t]);
 
-      // Build index from training data
+      /* --- Build index --- */
       const docFreq = {};
       const docTerms = [];
       const allResponses = [];
+      const docPhrases = [];
 
       trainingData.forEach((item, idx) => {
         const terms = new Set();
-        item.q.forEach(q => tokenize(q).forEach(t => terms.add(t)));
+        const phrases = new Set();
+        item.q.forEach(q => {
+          const toks = tokenize(q);
+          toks.forEach(t => terms.add(t));
+          bigrams(toks).forEach(b => phrases.add(b));
+        });
         docTerms.push([...terms]);
+        docPhrases.push([...phrases]);
         allResponses.push(item.a);
-        terms.forEach(t => { docFreq[t] = (docFreq[t] || 0) + 1; });
+        [...terms, ...phrases].forEach(t => { docFreq[t] = (docFreq[t] || 0) + 1; });
       });
 
       const N = trainingData.length;
 
-      const score = (tokens, idx) => {
+      /* --- Scoring with bigrams + fuzzy bonus --- */
+      const score = (tokens, bigramTokens, idx) => {
         let s = 0;
         const terms = docTerms[idx];
+        const phr = docPhrases[idx];
         const seen = new Set();
         tokens.forEach(t => {
           if (seen.has(t)) return;
           seen.add(t);
-          const inDoc = terms.includes(t);
-          if (inDoc) {
-            const idf = Math.log((N + 1) / (docFreq[t] + 1)) + 1;
-            s += idf;
+          if (terms.includes(t)) s += Math.log((N + 1) / (docFreq[t] + 1)) + 1;
+          else {
+            const fuzzy = terms.filter(tt => Math.abs(tt.length - t.length) < 3 && levenshtein(t, tt) < 2);
+            if (fuzzy.length) s += 0.5;
+          }
+        });
+        bigramTokens.forEach(b => {
+          if (!seen.has(b) && phr.includes(b)) {
+            seen.add(b);
+            s += (Math.log((N + 1) / ((docFreq[b]||0) + 1)) + 1) * 1.5;
           }
         });
         return s;
       };
 
-      const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+      /* --- Entity extraction --- */
+      const entities = {
+        tech: /\b(react|vue|angular|svelte|next\.?js|nuxt|node\.?js|python|django|flask|fastapi|go|golang|rust|typescript|graphql|rest|api|docker|kubernetes|aws|gcp|tailwind|postgres|mongodb|redis)\b/i,
+        service: /\b(web\s?site|app|mobile|api|backend|frontend|design\s?system|cms|e\s?commerce)\b/i,
+        cost: /\b(cost|price|pricing|budget|cheap|expensive|affordable|rates?|charge)\b/i,
+        contact: /\b(contact|email|phone|reach|call|message|form)\b/i,
+      };
 
-      const reply = text => {
-        const tokens = tokenize(text);
-        if (!tokens.length) return pick(fallbacks);
+      const extractEntities = text => Object.entries(entities).reduce((acc, [key, re]) => { const m = text.match(re); if (m) acc[key] = m[1] || m[0]; return acc; }, {});
 
+      /* --- Sentiment --- */
+      const sentiment = text => {
+        const pos = /\b(great|awesome|amazing|love|excellent|perfect|wonderful|fantastic|good|nice|cool)\b/i.test(text) ? 1 : 0;
+        const neg = /\b(bad|terrible|awful|hate|horrible|sucks|worst|poor|angry|frustrated|disappointed)\b/i.test(text) ? 1 : 0;
+        return neg - pos;
+      };
+
+      /* --- Follow-up detection --- */
+      const isFollowUp = text => /\b(what about|and|how about|tell me more|also|then|what else|elaborate|explain|more|anyway|actually)\b/i.test(text);
+
+      /* --- Main reply function --- */
+      const bestIntent = (text) => {
+        const toks = tokenize(text);
+        if (!toks.length) return { idx: 0, score: 0 };
+        const bigramToks = bigrams(toks);
         let best = 0, bestIdx = 0;
         for (let i = 0; i < N; i++) {
-          const s = score(tokens, i);
+          const s = score(toks, bigramToks, i);
           if (s > best) { best = s; bestIdx = i; }
         }
+        return { idx: bestIdx, score: best };
+      };
 
-        const matched = trainingData[bestIdx];
-        const entity = text.match(/\b(react|vue|angular|svelte|node\.?js|python|go|rust|typescript|graphql|api|docker|kubernetes|aws)\b/i);
+      const reply = (text, prevIdx) => {
+        const match = bestIntent(text);
+        if (!match.score) return pick(fallbacks);
+
+        const finalIdx = (isFollowUp(text) && prevIdx !== null) ? prevIdx : match.idx;
+        const matched = trainingData[finalIdx];
         let response = pick(matched.a);
 
-        if (entity && (matched.q.some(q => /\b(tech|stack|framework|language|tool)\b/i.test(q) || /\b(react|python|node)\b/i.test(q)))) {
-          const techResponses = [
-            'Great question about ' + entity[1] + '! ' + response,
-            'We have solid experience with ' + entity[1] + '. ' + response,
-            entity[1] + ' is definitely in our wheelhouse. ' + response,
-          ];
-          response = pick(techResponses);
+        const ent = extractEntities(text);
+        if (ent.tech) {
+          response = pick(['Great question about ' + ent.tech + '! ','We have solid experience with ' + ent.tech + '. ',ent.tech + ' is definitely in our wheelhouse. ']) + response;
         }
 
-        return response;
+        const sent = sentiment(text);
+        if (sent < 0) {
+          response = 'I hear your concern. ' + response + ' Let\'s figure out how to make this right.';
+        }
+
+        return { text: response, idx: finalIdx };
       };
 
       const fallbacks = [
-        'That\'s interesting! Could you tell me more about your project?',
-        'I\'d love to help with that. Can you share some more details?',
-        'Got it! What kind of project did you have in mind?',
-        'I see. Feel free to ask about our services, tech stack, or portfolio.',
-        'Thanks for reaching out! What specifically are you looking for?',
+        'That\'s a great question! Could you tell me a bit more about your project?',
+        'I\'d love to help with that. Feel free to ask about our services, tech stack, or past work.',
+        'Got it! What kind of project did you have in mind? We build web apps, APIs, design systems, and more.',
+        'I hear you. Can you share some more details so I can point you to the right information?',
+        'Interesting! You can ask me about pricing, portfolio, technology choices, or how we work.',
+        'I want to make sure I help properly. Are you looking to build something, or just exploring?',
+        'Thanks for reaching out! The more you share, the better I can help.',
+        'Not sure I fully understand — but I\'d love to! Tell me more about what you need.',
       ];
 
+      /* --- UI helpers --- */
       const addMsg = (text, sender) => {
         const div = document.createElement('div');
         div.className = 'chat-msg chat-msg--' + sender;
@@ -759,7 +818,8 @@
         return div;
       };
 
-      /* --- Optionally fetch external training data --- */
+      /* --- External training data fetch --- */
+      let prevMatch = null;
       (async () => {
         try {
           const res = await fetch('training.json');
@@ -769,8 +829,9 @@
               external.forEach(item => {
                 if (item.q && item.a) {
                   trainingData.push(item);
-                  const terms = [...new Set(item.q.flatMap(q => tokenize(q)))];
+                  const terms = [...new Set(item.q.flatMap(q => { const t = tokenize(q); return [...t, ...bigrams(t)]; }))];
                   docTerms.push(terms);
+                  docPhrases.push(terms);
                   allResponses.push(item.a);
                   terms.forEach(t => { docFreq[t] = (docFreq[t] || 0) + 1; });
                 }
@@ -780,6 +841,56 @@
         } catch {}
       })();
 
+      /* --- Ollama integration --- */
+      const OLLAMA_URL = 'http://localhost:11434/api/chat';
+      const OLLAMA_MODEL = 'llama3.2';
+      let ollamaAvailable = null;
+
+      const checkOllama = async () => {
+        try {
+          const res = await fetch(OLLAMA_URL.replace('/api/chat', ''), { signal: AbortSignal.timeout(2000) });
+          ollamaAvailable = res.ok;
+        } catch { ollamaAvailable = false; }
+      };
+      checkOllama();
+
+      const ollamaReply = async (text) => {
+        try {
+          const res = await fetch(OLLAMA_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: OLLAMA_MODEL,
+              messages: [
+                { role: 'system', content: 'You are the assistant for paperloris, a software studio. Answer concisely about web development, APIs, design systems, and our services. Keep responses short and helpful.' },
+                { role: 'user', content: text }
+              ],
+              stream: false
+            }),
+            signal: AbortSignal.timeout(10000)
+          });
+          if (!res.ok) return null;
+          const data = await res.json();
+          return data.message?.content || null;
+        } catch { return null; }
+      };
+
+      /* --- Button clicks --- */
+      $('#chatButtons').addEventListener('click', e => {
+        const btn = e.target.closest('.chat-btn');
+        if (!btn) return;
+        const text = btn.textContent.trim();
+        addMsg(text, 'user');
+        btn.classList.add('chat-btn--hidden');
+        const typing = showTyping();
+        setTimeout(() => {
+          typing.remove();
+          const result = reply(btn.dataset.query, prevMatch);
+          prevMatch = result.idx;
+          addMsg(result.text, 'bot');
+        }, 300);
+      });
+
       form.addEventListener('submit', e => {
         e.preventDefault();
         const text = input.value.trim();
@@ -787,11 +898,28 @@
         addMsg(text, 'user');
         input.value = '';
         const typing = showTyping();
-        setTimeout(() => {
-          typing.remove();
-          addMsg(reply(text), 'bot');
-        }, 250 + Math.random() * 350);
+
+        const respond = async () => {
+          if (ollamaAvailable) {
+            const ollamaResponse = await ollamaReply(text);
+            if (ollamaResponse) {
+              typing.remove();
+              addMsg(ollamaResponse, 'bot');
+              return;
+            }
+            ollamaAvailable = false;
+          }
+
+          setTimeout(() => {
+            typing.remove();
+            const result = reply(text, prevMatch);
+            prevMatch = result.idx;
+            addMsg(result.text, 'bot');
+          }, 300 + Math.random() * 300);
+        };
+        respond();
       });
+
     })();
   </script>
 </body>
